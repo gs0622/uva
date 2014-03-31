@@ -35,6 +35,7 @@ int main(void)
             mov = all - bin[0][state[i][0]]
                       - bin[1][state[i][1]]
                       - bin[2][state[i][2]];
+            //cout << mov << " ";
             if (min > mov) {
                 min = mov;
                 ret = i;
