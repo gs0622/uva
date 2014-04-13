@@ -1,6 +1,7 @@
 /* http://acm-solution.blogspot.tw/2010/11/acm-uva-103-stacking-boxes.html */
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -9,18 +10,66 @@ struct box_t {
     int id;
     int edge[10];
 } box[30];
-static int k, n; /*k boxes, n dimensionality*/ 
+
+int dp[30];
+int parent[30];
+
+static int k, n; /*k boxes, n dimensionality*/
+
+int cmp(int a, int b)
+{
+    for (int i=0; i<n; i++)
+        if (box[a].edge[i] <= box[b].edge[i]) return 0; /*false*/
+    return 1; /*true*/
+}
+
+void trace(int i)
+{
+    if (parent[i] != -1) trace(parent[i]);
+    cout << box[i].id << " ";
+}
+
+int naive_lis(void)
+{
+    for (int i=0; i<k; i++) {
+        dp[i]=1;
+        parent[i]=-1;
+    }
+    for (int i=0; i<k; i++) {
+        for (int j=i+1; j<k; j++) {
+            if (cmp(j,i) && (dp[i]+1 > dp[j])) {
+                dp[j] = dp[i] + 1;
+                parent[j] = i;
+            }
+        }
+    }
+    int max = 0, end;
+    for (int i=0; i<k; i++) {
+        if (max < dp[i]) {
+            max = dp[i];
+            end = i;
+        }
+    }
+    cout << max << endl;
+    trace(end);
+    cout << endl;
+    return max;
+}
+
 int main(void)
 {
     while (cin >> k >> n) {
-        cout << k << "-" << n << endl;
         if (k>30) continue;
         for (int i=0; i<k; i++) {
+            box[i].id = i+1;
             for (int j=0; j<n; j++) cin >> box[i].edge[j];
-        } 
-       for (int i=0; i<k; i++) {
-            for (int j=0; j<n; j++) cout << box[i].edge[j] << " ";
         }
+        for (int i=0; i<k; i++) sort(box[i].edge, box[i].edge+n);
+        for (int i=k-1; i>0; i--) {
+            for (int j=0; j<i; j++)
+                if (cmp(j, j+1)) swap(box[j], box[j+1]);
+        }
+        naive_lis();
     }
     return 0;
 }
