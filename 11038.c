@@ -3,13 +3,13 @@
 long long zsum(long long a)
 {
     long long sum = (a>0)?1:0;
-    long long right = 0, dig = 1;
+    long long right = 0, digit = 1;
     while (a>0) {
-        if (0!=(a%10)) sum+=(a/10)*dig;
-        else sum += ((a/10)-1)*dig+(right+1);
-        right+=(a%10)*dig;
+        if (0!=(a%10)) sum+=(a/10)*digit;
+        else sum += ((a/10)-1)*digit+(right+1);
+        right+=(a%10)*digit;
         a/=10;
-        dig*=10;
+        digit*=10;
     }
     return sum;
 }
@@ -23,4 +23,3 @@ int main(int argc, char **argv)
         printf("%u\n", i);
     }
 }
-
