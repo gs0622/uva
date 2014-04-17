@@ -1,7 +1,9 @@
 /* Bangla Numbers - http://uva.onlinejudge.org/external/101/10101.html */
-#if 0
 #include <stdio.h>
-void do_bangle(unsigned long long v)
+
+#define MODEL 2
+#if (MODEL==0)
+void do_bangla(unsigned long long v)
 {
     unsigned long long kuti, lakh, hajar, shata;
     if (v>10000000) do_bangle(v/10000000/100*100);
@@ -16,10 +18,9 @@ void do_bangle(unsigned long long v)
     if (shata) printf("%llu shata ", shata);
     if (v) printf("%llu", v);
 }
-#else
-#include <stdio.h>
+#elif (MODEL==1)
 #include <string.h>
-void do_bangle(unsigned long long v)
+void do_bangla(unsigned long long v)
 {
     unsigned long long kuti, lakh, hajar, shata;
     char buf[64], *p=buf;
@@ -35,6 +36,24 @@ void do_bangle(unsigned long long v)
     if (len>2) printf("%lu shata ", strtoul(strndup(p, 1), 0, 10));
     if (v%100) printf("%llu ", v%100);
 }
+#elif (MODEL==2)
+const char *z[4] = {"shata", "hajar", "lakh", "kuti"};
+unsigned long long div[4] = {10, 100, 100, 100};
+void bangla(unsigned long long v, int pos)
+{
+    unsigned int ndivpos = v % div[pos];
+    if (!v) return;
+    bangla(v/div[pos], (pos+1)%4);    
+    if (ndivpos) printf(" %llu %s", v % div[pos], z[pos]);
+    else if (pos == 3) printf(" kuti");
+}
+void do_bangla(unsigned long long v)
+{
+    bangla(v/100,0);
+    if(!(v / 100) || v % 100) printf(" %llu", v % 100);
+}
+#else
+#error MODEL
 #endif
 int main(int argc, char **argv)
 {
@@ -42,7 +61,7 @@ int main(int argc, char **argv)
     int i=0;
     while (scanf("%llu", &v) != EOF) {
         printf("%d. ", ++i);
-        do_bangle(v);
+        do_bangla(v);
         printf("\n");
     }
 }
