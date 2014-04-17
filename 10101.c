@@ -3,7 +3,6 @@
 #include <stdio.h>
 void do_bangle(unsigned long long v)
 {
-    unsigned long long w;
     unsigned long long kuti, lakh, hajar, shata;
     if (v>10000000) do_bangle(v/10000000/100*100);
     kuti=v/10000000%100;
@@ -16,15 +15,6 @@ void do_bangle(unsigned long long v)
     if (hajar) printf("%llu hajar ", hajar);
     if (shata) printf("%llu shata ", shata);
     if (v) printf("%llu", v);
-}
-
-int main(int argc, char **argv)
-{
-    unsigned long long v;
-    while (scanf("%llu", &v) != EOF) {
-        do_bangle(v);
-        printf("\n");
-    }
 }
 #else
 #include <stdio.h>
@@ -45,14 +35,14 @@ void do_bangle(unsigned long long v)
     if (len>2) printf("%lu shata ", strtoul(strndup(p, 1), 0, 10));
     if (v%100) printf("%llu ", v%100);
 }
-
+#endif
 int main(int argc, char **argv)
 {
     unsigned long long v;
+    int i=0;
     while (scanf("%llu", &v) != EOF) {
+        printf("%d. ", ++i);
         do_bangle(v);
         printf("\n");
     }
 }
-#endif
-
