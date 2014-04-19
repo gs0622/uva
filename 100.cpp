@@ -1,5 +1,4 @@
 #include <iostream>
-#include <ctime>
 
 using namespace std;
 
@@ -7,7 +6,6 @@ using namespace std;
 
 static unsigned short table[SIZE];
 
-#if 1
 int foo(int n)
 {
         if ((n<SIZE) && table[n]) return table[n];
@@ -18,25 +16,13 @@ int foo(int n)
             return (n<SIZE)? (table[n]=1+foo(n/2)):1+foo(n/2);
         }
 }
-#else
-int foo(int n)
-{
-        if (n<=1) return 1;
-        if (n%2==1) {
-            return 1+foo(3*n+1);
-        } else {
-            return 1+foo(n/2);
-        }
-}
-#endif
 
 int main(void)
 {
-    unsigned int i, j, k, s, e, c, t, max;
+    unsigned int i, j, k, s, e, c, max;
 
     table[1] = 1;
     while (cin >> i >> j) {
-        t = clock();
         max = 0;
         if (j>=i) {
             s=i;
@@ -47,10 +33,10 @@ int main(void)
         }
         for (k=s;k<=e;k++) {
             c = foo(k);
-            //cout << c << endl;
             if (c > max) max = c;
         }
-        cout << i << " " << j << " " << max << " " << clock()-t << endl;
+        cout << i << " " << j << " " << max << endl;
     }
+    return 0;
 }
 
