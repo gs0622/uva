@@ -45,10 +45,9 @@ void compare(char *a, char *b)
 int main(int argc, char **argv)
 {
     static char flip = 1; /*1 for line-A, 0 for line-B*/
-    char *line, *p, *q;
-    size_t len;
+    char *line = NULL, *p, *q;
+    size_t len = 0;
     while (-1 != getline(&line, &len, stdin)) {
-        //printf("%c=%s", flip? 'A':'B', line);
         p = strtok(line, " ");
         q = (flip)? seta : setb;
         while (p) {
@@ -62,5 +61,6 @@ int main(int argc, char **argv)
         }
         flip=!flip;
     }
+    if (line) free(line);
     return 0;
 }
