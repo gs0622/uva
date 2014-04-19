@@ -29,4 +29,5 @@ int main(int argc, char **argv)
             printf("%.6f\n", sqrt(6.0*v/(double)count));
         }
     }
+    return 0;
 }

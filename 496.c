@@ -62,4 +62,5 @@ int main(int argc, char **argv)
         }
         flip=!flip;
     }
+    return 0;
 }
