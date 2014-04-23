@@ -1,24 +1,28 @@
 /*http://uva.onlinejudge.org/external/5/501.html*/
 #include <stdio.h>
-#include <queue>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int main(int argc, char **argv)
 {
-    int i, j, k, m, n, a[30001], u[30001]; // N <= M <= 30000
-    std::priority_queue<int, std::vector<int>, std::greater<int> > q; // min-heap
-    while (scanf("%d\n", &k) == 1 && k>0) {
+    int i, c, m, n, a[30000];
+    scanf("%d\n", &c);
+    while (c--) {
+        std::vector<int> v;
         scanf("%d %d\n", &m, &n);
-        for (i=0;i<m; i++) scanf("%d ", &a[i]);
-        for (i=0;i<n; i++) scanf("%d ", &u[i]);
-        for (i=0;i<n; i++) {
-            int tmp = i+1; // i-th
-            for (j=0;j<u[i];j++) q.push(a[j]);
-            while (--tmp) q.pop();
-            printf ("%d\n", q.top());
-            while (!q.empty()) q.pop();
+        for (i=0;i<m; i++) scanf("%d", &a[i]);
+        int u, j=0, k=0;
+        while (n--) {
+            scanf("%u", &u);
+            while (j<u) {
+                vector<int>::iterator it = lower_bound(v.begin(), v.end(), a[j]);
+                v.insert(it, a[j++]);
+            }
+            printf("%d\n", v[k++]);
         }
+        if (c) printf ("\n"); /*last case no blank line*/
     }
     return 0;
 }
