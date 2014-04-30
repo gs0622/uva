@@ -35,33 +35,41 @@ int main(void)
         for (i=0;i<k;i++) scanf("%s", &(course[i][0]));
         qsort(course, k, 30, cmp); /*sort course lexicographically*/
         scanf("%d", &j);
-        for (i=0;i<j;i++) { /*scan DAG*/
+        for (i=0;i<j;i++) {
             scanf("%s %d", name, &prerequisites);
-            b = course_index(name);
+            a = course_index(name);
             while (prerequisites--) {
                 scanf("%s", name2);
-                a = course_index(name2);
+                b = course_index(name2);
                 dag[a][b]=1;
             }
         }
-        for (a=0;a<k;a++) /*build extended DAG*/
-            for (b=0;b<k;b++)
-                for (c=0;c<k;c++)
+        for (c=0;c<k;c++)
+            for (a=0;a<k;a++)
+                for (b=0;b<k;b++)
                     dag[a][b]|=dag[a][c]&dag[c][b];
-        for (a=0;a<k;a++) /*build shotest DAG*/
-            for (b=0;b<k;b++)
-                for (c=0;c<k;c++)
-                    if (dag[a][b]==1)
-                        dag[a][b]^=dag[a][c]&dag[c][b];
-        for (a=0;a<k;a++) /*count shotest prerequisites*/
+#if 0
+        for (a=0;a<k;a++)
             for (b=0;b<k;b++)
                 if (dag[a][b]==1)
-                    pre[b]+=1;
-        for (a=0;a<k;a++) { /*output*/
+                    for (c=0;c<k;c++)
+                        dag[a][b]^=dag[a][c]&dag[c][b];
+#endif
+        for (a=0;a<k;a++) {
+            int m[150]={};
+            for (b=0;b<k;b++)
+                if (dag[a][b]==1)
+                    for (c=0;c<k;c++)
+                        if (dag[a][c]&&dag[c][b]) {
+                            m[b]=1;
+                            break;
+                        }
+            for (b=0;b<k;b++)
+                if (dag[a][b]&&m[b]==0) pre[a]++;
             if (pre[a]>0) {
                 printf("%s %d", &course[a][0], pre[a]);
                 for (b=0;b<k;b++)
-                    if (dag[b][a]==1)
+                    if (dag[a][b]==1 && m[b]==0)
                         printf(" %s", &course[b][0]);
                 printf("\n");
             }
