@@ -27,7 +27,7 @@ void numbering(bignum_t *p)
     p->len=strlen(p->dig), digrev(p->dig, p->rev, p->len);
 }
 
-int largethan(bignum_t *p, bignum_t *q) /* ">" operator*/
+int largethan(bignum_t *p, bignum_t *q) /* ">=" operator*/
 {
     int cmp = (p->len == q->len)? strcmp(p->dig, q->dig) : (p->len - q->len);
     return cmp = (cmp >= 0)? 1:0;
