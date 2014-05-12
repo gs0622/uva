@@ -7,7 +7,7 @@ int main(void)
     char in[1024], remap[256];
     int i;
 #if 0
-    freopen("c054.in", "r", stdin);
+    freopen("10082.in", "r", stdin);
 #endif
     for (i=1;map[i];i++) remap[(int)map[i]]=map[i-1];
     while (gets(in)) {
