@@ -1,12 +1,15 @@
 /* Bangla Numbers - http://uva.onlinejudge.org/external/101/10101.html */
 #include <stdio.h>
 
-#define MODEL 2
+#define MODEL 0
 #if (MODEL==0)
 void do_bangla(unsigned long long v)
 {
     unsigned long long kuti, lakh, hajar, shata;
-    if (v>10000000) do_bangle(v/10000000/100*100);
+    if (v>10000000) {
+        do_bangla(v/10000000/100*100);
+        if (0==(v/10000000%100)) printf("kuti ");
+    }
     kuti=v/10000000%100;
     lakh=v/100000%100;
     hajar=v/1000%100;
@@ -26,7 +29,7 @@ void do_bangla(unsigned long long v)
     char buf[64], *p=buf;
     int len = sprintf(buf, "%llu", v);
     if (len>9) {
-        do_bangle(v/10000000/100*100);
+        do_bangla(v/10000000/100*100);
         v%=1000000000;
         len = sprintf(buf, "%llu", v);
     }
@@ -61,7 +64,8 @@ int main(int argc, char **argv)
     int i=0;
     while (scanf("%llu", &v) != EOF) {
         printf("%d. ", ++i);
-        do_bangla(v);
+        if (0!=v) do_bangla(v); else printf("0");
         printf("\n");
     }
+    return 0;
 }
