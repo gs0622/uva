@@ -6,7 +6,7 @@ int tt[120][21];
 int main(void)
 {
     int i, j, k, n, tracks;
-    //freopen("624.in", "r", stdin);
+    /*freopen("624.in", "r", stdin);*/
     while (scanf("%d", &n)!=EOF) {
         if (scanf("%d", &tracks)==1) {
             for (i=0;i<tracks;i++) scanf("%d", &t[i]);
@@ -15,14 +15,17 @@ int main(void)
                 for (j=0;j<tracks;j++) tt[i][j]=0;
             for (i=0;i<tracks;i++) {
                 for (j=n;j-t[i]>=0;j--) {
-                    if (c[j]<(c[j-t[i]]+t[i])) {
+                    /*if (c[j]<(c[j-t[i]]+t[i])) {*//*diff result, equal sum as below*/
+                    if (c[j]<=(c[j-t[i]]+t[i])) {
                         c[j]=c[j-t[i]]+t[i];
+                        for (k=0;k<i;k++) tt[j][k]=tt[j-t[i]][k];
+                        tt[j][i]=1;
                     }
                 }
             }
         }
-        //for (i=0,j=n;i<tracks;i++)
-        //    if (tt[j][i]==1) printf("%d ", t[i]);
+        for (i=0,j=n;i<tracks;i++)
+            if (tt[j][i]==1) printf("%d ", t[i]);
         printf("sum:%d\n", c[n]);
     }
     return 0;
